@@ -5,7 +5,8 @@ export default (database, DataTypes) => {
       call_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
       },
       call_type: {
         type: DataTypes.STRING
@@ -20,11 +21,13 @@ export default (database, DataTypes) => {
     {
       freezeTableName: true, 
       timestamps: false,
+      underscored: true
     }
   );
 
-  // Calls.associate = function (db) {
-  //   Calls.belongsTo(db.incidents);
-  // }; 
+  Calls.associate = function (db) {
+    Calls.hasOne(db.incidents, { foreignKey: 'call_id', sourceKey: 'call_id', as: 'call'});
+  }
+
   return Calls;
 }
